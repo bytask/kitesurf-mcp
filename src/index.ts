@@ -18,7 +18,12 @@ type WaitMode = "load" | "domcontentloaded" | "networkidle";
 const waitUntilOf = (wait: WaitMode) =>
   wait === "networkidle" ? ("networkidle2" as const) : wait;
 
-const urlParam = z.string().url().describe("Absolute URL to open (https://...)");
+const urlParam = z
+  .string()
+  .url()
+  .describe(
+    "Absolute URL to open (https://...). Basic auth is supported via https://user:pass@host/... (sent as an Authorization header)"
+  );
 const waitParam = z
   .enum(["load", "domcontentloaded", "networkidle"])
   .optional()
@@ -43,10 +48,22 @@ async function withPage<T>(
   wait: WaitMode,
   fn: (page: Page) => Promise<T>
 ): Promise<T> {
+  // Kitesurf drops credentials embedded in the URL; convert them to a Basic
+  // Authorization header (sent to every request the page makes)
+  const u = new URL(url);
+  let authHeader: string | null = null;
+  if (u.username || u.password) {
+    authHeader =
+      "Basic " + btoa(`${decodeURIComponent(u.username)}:${decodeURIComponent(u.password)}`);
+    u.username = "";
+    u.password = "";
+    url = u.toString();
+  }
   const browser = await launchKitesurf(env);
   try {
     const page = await browser.newPage();
     await page.setViewport(DEFAULT_VIEWPORT);
+    if (authHeader) await page.setExtraHTTPHeaders({ Authorization: authHeader });
     await page.goto(url, { waitUntil: waitUntilOf(wait), timeout: GOTO_TIMEOUT_MS });
     return await fn(page);
   } finally {
