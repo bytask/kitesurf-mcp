@@ -1,0 +1,13 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "kitesurf-mcp",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-08-01",
+  "compatibility_flags": ["nodejs_compat"],
+  "browser": { "binding": "BROWSER" },
+  "durable_objects": {
+    "bindings": [{ "name": "MCP_OBJECT", "class_name": "KitesurfMCP" }]
+  },
+  "migrations": [{ "tag": "v1", "new_sqlite_classes": ["KitesurfMCP"] }],
+  "observability": { "enabled": true }
+}
