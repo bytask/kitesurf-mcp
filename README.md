@@ -2,7 +2,7 @@
 
 Kitesurf（Cloudflareのエージェント専用ブラウザ）を claude.ai / Claude Code などのMCPクライアントから使うためのリモートMCPサーバー。Cloudflare Workers上で稼働し、browser binding経由でKitesurfを起動するためAPIトークン不要。
 
-- URL: `https://kitesurf-mcp.task-cf2.workers.dev/mcp-<secret>`（Streamable HTTP）
+- URL: `https://<your-worker>.workers.dev/mcp-<secret>`（Streamable HTTP）
 - 認証: URLパスの128bitシークレット（`wrangler secret put MCP_PATH_SECRET`。ローカルは `.mcp-path-secret`、git管理外）
 - スタック: `agents`(McpAgent) + `@modelcontextprotocol/sdk` + `@cloudflare/puppeteer`（`browser: "kitesurf"`）
 
