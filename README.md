@@ -104,3 +104,7 @@ Streamable HTTP対応のMCPクライアントならURLを設定するだけで�
 - ベータ起因の `error code: 1042` → launch時1回リトライ
 
 公式の制限（動画・WebGL・bot対策回避・永続認証セッションは非対応）は [Kitesurf docs](https://developers.cloudflare.com/browser-run/kitesurf/) を参照。これらが必要な場合は `browser: "kitesurf"` を外せば同じコードがChromium版Browser Runで動く。
+
+## License
+
+MIT
