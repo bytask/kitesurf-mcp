@@ -1,6 +1,8 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "kitesurf-mcp",
+  // 公開面は mcp-gateway（mcp.taskf.co.jp）のみ。workers.dev の旧 URL は 2026-09-05 に廃止
+  "workers_dev": false,
   "main": "src/index.ts",
   "compatibility_date": "2026-08-01",
   "compatibility_flags": ["nodejs_compat"],
