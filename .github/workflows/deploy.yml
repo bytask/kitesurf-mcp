@@ -1,0 +1,13 @@
+# 本番適用。main に merge / push されたら Deploy が走る。
+# 必要な secret: CLOUDFLARE_API_TOKEN（tskf 01-operations/playbooks/infra/dev-flow.md §3）
+name: Deploy
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+jobs:
+  deploy:
+    uses: bytask/tskf/.github/workflows/worker-deploy.yml@main
+    with:
+      account_id: cf2700fea05294e9282d2323a28c0322
+    secrets: inherit
